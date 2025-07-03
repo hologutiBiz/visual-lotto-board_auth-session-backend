@@ -5,7 +5,7 @@ import admin from "firebase-admin";
 
 // ✅ Initialize Firebase Admin
 admin.initializeApp({
-  credential: admin.credential.cert("./firebase/serviceAccountKey.json")
+  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
 });
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(cors({
    "https://app.visuallottoboard.com",
    "https://premier-lotto-babaijebu-results.visuallottoboard.com",
    "https://visuallottoboard.com",
-   
+
     // Add more if needed
   ],
   credentials: true
