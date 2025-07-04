@@ -45,8 +45,8 @@ app.post("/setSession", async (req, res) => {
       maxAge: SESSION_EXPIRY_MS,
       httpOnly: true,
       secure: true,
-      sameSite: "None",
-      domain: "auth.visuallottoboard.com" // ✅ works across subdomains
+      sameSite: "Strict",
+      domain: ".visuallottoboard.com" // ✅ works across subdomains
     });
 
     res.status(200).send("Session cookie set");
