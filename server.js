@@ -10,7 +10,7 @@ admin.initializeApp({
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-const SESSION_COOKIE_NAME = "allow_free_user_to_view_results";
+const SESSION_COOKIE_NAME = "vlb_session";
 const SESSION_EXPIRY_MS = 60 * 60 * 24 * 5 * 1000; // 5 days
 
 // ✅ Middleware
@@ -45,8 +45,8 @@ app.post("/setSession", async (req, res) => {
       maxAge: SESSION_EXPIRY_MS,
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
-      domain: ".visuallottoboard.com" // ✅ works across subdomains
+      sameSite: "None",
+      domain: "auth.visuallottoboard.com" // ✅ works across subdomains
     });
 
     res.status(200).send("Session cookie set");
