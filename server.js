@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import admin from "firebase-admin";
+import { RecaptchaEnterpriseServiceClient } from "@google-cloud/recaptcha-enterprise";
 
 // ✅ Initialize Firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
 });
+const recaptchaClient = new RecaptchaEnterpriseServiceClient();
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -31,12 +33,32 @@ app.use(cookieParser());
 // ✅ Set Session Route
 app.post("/setSession", async (req, res) => {
   const idToken = req.body.token;
+  const recaptchaToken = req.body.recaptchaToken;
 
-  if (!idToken) {
-    return res.status(400).send("Missing token");
+  if (!idToken || !recaptchaToken) {
+    return res.status(400).send("Missing token(s)");
   }
 
   try {
+    const projectPath = recaptchaClient.projectPath("lotto-forecast-web-db");
+    const [assessment] = await recaptchaClient.createAssessment({
+      parent: projectPath,
+      assessment: {
+        event: {
+          token: recaptchaToken,
+          siteKey: "6LcvUXErAAAAAEezFl2DYdq2Rt9hBwVQ0PqGrQOD",
+        }
+      }
+    });
+
+    const score = assessment.riskAnalysis?.score || 0;
+    const reasons = assessment.riskAnalysis?.reasons || [];
+
+    if (score < 0.5 || reasons.includes("AUTOMATION")) {
+      console.warn("Suspicious reCAPTCHA score:", score, reasons);
+      return res.status(403).send("reCAPTCHA verification failed")
+    }
+
     const sessionCookie = await admin.auth().createSessionCookie(idToken, {
       expiresIn: SESSION_EXPIRY_MS
     });
