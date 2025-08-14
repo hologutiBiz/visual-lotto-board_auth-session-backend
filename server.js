@@ -8,7 +8,12 @@ import { RecaptchaEnterpriseServiceClient } from "@google-cloud/recaptcha-enterp
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
 });
-const recaptchaClient = new RecaptchaEnterpriseServiceClient();
+
+const credentials = JSON.parse(process.env.RECAPTCHA_SERVICE_ACCOUNT);
+const recaptchaClient = new RecaptchaEnterpriseServiceClient({
+  credentials,
+  projectId: credentials.project_id
+});
 
 const app = express();
 const PORT = process.env.PORT || 10000;
