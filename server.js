@@ -112,6 +112,11 @@ app.get("/verifySession", async (req, res) => {
   }
 });
 
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // ✅ Start Server
 app.listen(PORT, () => {
   console.log(`✅ VLB auth backend running on port ${PORT}`);
