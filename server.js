@@ -54,6 +54,12 @@ app.post("/setSession", async (req, res) => {
     const score = assessment.riskAnalysis?.score || 0;
     const reasons = assessment.riskAnalysis?.reasons || [];
 
+    const action = assessment.tokenProperties?.action;
+    if (action !== "login" && action !== "google_login") {
+      console.warn("Unexpected reCAPTCHA action:", action);
+      return res.status(403).send("Invalid reCAPTCHA action");
+    }
+
     if (score < 0.5 || reasons.includes("AUTOMATION")) {
       console.warn("Suspicious reCAPTCHA score:", score, reasons);
       return res.status(403).send("reCAPTCHA verification failed")
