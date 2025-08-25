@@ -27,6 +27,7 @@ app.use(cors({
    "https://app.visuallottoboard.com",
    "https://premier-lotto-babaijebu-results.visuallottoboard.com",
    "https://visuallottoboard.com",
+   "https://lotto-forecast-web-app.netlify.app"
 
     // Add more if needed
   ],
