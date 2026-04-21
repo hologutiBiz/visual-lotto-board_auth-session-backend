@@ -24,6 +24,7 @@ const SESSION_EXPIRY_MS = 60 * 60 * 24 * 5 * 1000; // 5 days
 app.use(cors({
   origin: [
    "https://auth.visuallottoboard.com",
+   "https://lottoforecast.visuallottoboard.com",
    "https://app.visuallottoboard.com",
    "https://premier-lotto-babaijebu-results.visuallottoboard.com",
    "https://visuallottoboard.com",
