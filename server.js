@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 10000;
 const SESSION_COOKIE_NAME = "vlb_session";
 const SESSION_EXPIRY_MS = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-// ✅ Middleware
+// Middleware
 app.use(cors({
     origin: [
       "https://auth.visuallottoboard.com",
@@ -38,7 +38,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Set Session Route
+// Set Session Route
 app.post("/setSession", async (req, res) => {
     const idToken = req.body.token;
     const recaptchaToken = req.body.recaptchaToken;
@@ -120,7 +120,7 @@ app.get("/health", (req, res) => {
     res.status(200).send("OK");
 });
 
-// ✅ Start Server
+// Start Server
 app.listen(PORT, () => {
     console.log(`✅ VLB auth backend running on port ${PORT}`);
 });
