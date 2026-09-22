@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import admin from "firebase-admin";
 import { RecaptchaEnterpriseServiceClient } from "@google-cloud/recaptcha-enterprise";
 
-// ✅ Initialize Firebase Admin
+// Initialize Firebase Admin
 admin.initializeApp({
     credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
 });
@@ -24,12 +24,11 @@ const SESSION_EXPIRY_MS = 60 * 60 * 24 * 5 * 1000; // 5 days
 app.use(cors({
     origin: [
       "https://auth.visuallottoboard.com",
-      "https://pay.visuallottoboard.com/*",
+      "https://pay.visuallottoboard.com",
       "https://lottoforecast.visuallottoboard.com",
       "https://app.visuallottoboard.com",
       "https://premier-lotto-babaijebu-results.visuallottoboard.com",
       "https://visuallottoboard.com",
-      "https://lotto-forecast-web-app.netlify.app"
 
       // Add more if needed
     ],
